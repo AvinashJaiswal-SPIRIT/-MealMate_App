@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'sign_up.dart';
-import 'login_widgets.dart';
 
+import 'widgets.dart';
+import 'auth_widgets.dart';
+import 'home.dart';
+import 'signup.dart';
+
+// Login page
+// Handles user authentication, email/password input, and social login options.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -10,203 +15,241 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool showPassword = false;
-  bool remember = false;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String errorMessage = "";
+  bool _rememberMe = false;
+  bool _obscurePassword = true;
+
+  void login() {
+    String email = _emailController.text.trim();
+    if (email.isEmpty || !email.contains('@') || !email.contains('.com')) {
+      setState(() => errorMessage = "Please enter a valid email address");
+      return;
+    }
+    // Add api here for login
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomeShell()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: lightBg,
+      backgroundColor: const Color(0xFFFAF9F6),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(15, 15, 15, 20),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/logo/meal_logo.png',
-                width: 55,
-                height: 55,
-              ),
-
-              const SizedBox(height: 8),
-              const Text(
-                'MealMate',
-                style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-              ),
-              const Text(
-                'Delicious recipes at your fingertips',
-                style: TextStyle(fontSize: 9, color: Colors.black54),
-              ),
-
               const SizedBox(height: 20),
-
-              const WelcomeCard(),
-
-
-              const SizedBox(height: 15),
-
-              const LoginField(
-                label: 'Email Address',
-                hint: 'chef@mealmate.app',
-                icon: Icons.email_outlined,
-              ),
-
+              const HeaderLogoBox(),
               const SizedBox(height: 12),
+              const Text(
+                "MealMate",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const Text(
+                "Delicious recipes at your fingertips",
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+              const SizedBox(height: 32),
 
-              LoginField(
-                label: 'Password',
-                hint: '********',
-                icon: Icons.lock_outline,
-                obscureText: !showPassword,
-                suffix: IconButton(
-                  icon: Icon(
-                    showPassword ? Icons.visibility : Icons.visibility_off,
-                    size: 18,
-                  ),
-                  onPressed: () {
-                    setState(() => showPassword = !showPassword);
-                  },
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFD94A38).withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      "Welcome back!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Log in to view your liked meals, custom meal plans, and\nfavorite recipes.",
+                      style: TextStyle(color: Colors.black54, fontSize: 12),
+                    ),
+                  ],
                 ),
               ),
-              Row(
-                children: [
-                  Checkbox(
-                    value: remember,
-                    onChanged: (value) {
-                      setState(() => remember = value!);
-                    },
-                    activeColor: Colors.green.shade700,
-                    visualDensity: VisualDensity.compact,
+              const SizedBox(height: 24),
+
+              const AuthLabel(leftText: "Email Address"),
+              AuthTextField(
+                controller: _emailController,
+                hintText: "chef@mealmate.app",
+                prefixIcon: Icons.email_outlined,
+              ),
+              const SizedBox(height: 16),
+
+              const AuthLabel(
+                leftText: "Password",
+                rightText: "Forgot Password?",
+                rightColor: Color(0xFFD94A38),
+                isBoldRight: true,
+              ),
+              AuthTextField(
+                controller: _passwordController,
+                hintText: "********",
+                prefixIcon: Icons.lock_outline,
+                obscureText: _obscurePassword,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: Colors.grey,
                   ),
-                  const Text(
-                    'Remember this kitchen device',
-                    style: TextStyle(fontSize: 9),
-                  ),
-                  const Spacer(),
-                  Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      color: primaryRed,
-                      fontSize: 9,
-                      fontWeight: FontWeight.bold,
+                  onPressed: () =>
+                      setState(() => _obscurePassword = !_obscurePassword),
+                ),
+              ),
+
+              if (errorMessage.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Text(errorMessage, style: const TextStyle(color: Colors.red)),
+              ],
+              const SizedBox(height: 16),
+
+              GestureDetector(
+                onTap: () => setState(() => _rememberMe = !_rememberMe),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: _rememberMe ? Colors.green : Colors.transparent,
+                        border: Border.all(
+                          color: _rememberMe ? Colors.green : Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: _rememberMe
+                          ? const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 14,
+                            )
+                          : null,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    const Text(
+                      "Remember this Kitchen device",
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                  ],
+                ),
               ),
 
-              const SizedBox(height: 5),
-
-              LoginButton(
-                text: 'Log In  →',
-                onPressed: () {},
-              ),
-
-              const SizedBox(height: 18),
+              const SizedBox(height: 24),
+              PrimaryButton(text: "Log In", onPressed: login),
+              const SizedBox(height: 24),
 
               Row(
                 children: [
-                  const Expanded(child: Divider()),
+                  Expanded(
+                    child: Divider(color: Colors.grey.withValues(alpha: 0.3)),
+                  ),
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'OR CONTINUE WITH',
-                      style: TextStyle(fontSize: 12),
+                      "OR CONTINUE WITH",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  const Expanded(child: Divider()),
+                  Expanded(
+                    child: Divider(color: Colors.grey.withValues(alpha: 0.3)),
+                  ),
                 ],
               ),
-
-              const SizedBox(height: 12),
+              const SizedBox(height: 24),
 
               Row(
-                children: [
+                children: const [
                   SocialButton(
-                    text: 'Google',
-                    icon: Image.asset(
-                      'assets/logo/google_logo.jpg',
-                      width: 18,
-                      height: 18,
-                      fit: BoxFit.contain,
-                    ),
+                    text: "Google",
+                    image: 'assets/logo/google_logo.jpg',
                   ),
-
-                  const SizedBox(width: 8),
-
+                  SizedBox(width: 16),
                   SocialButton(
-                    text: 'Apple',
-                    icon: const Icon(
-                      Icons.apple,
-                      size: 18,
-                    ),
+                    text: "Apple",
+                    image: 'assets/logo/apple_logo.png',
                   ),
                 ],
               ),
-
-
-              const SizedBox(height: 18),
+              const SizedBox(height: 32),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Don't have an account?  ",
-                    style: TextStyle(fontSize: 10),
+                    "Don't have an account? ",
+                    style: TextStyle(color: Colors.grey),
                   ),
-
-                  TextButton(
-                    onPressed: () {
+                  GestureDetector(
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SignupPage(),
+                          builder: (context) => const SignUpPage(),
                         ),
                       );
                     },
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
                     child: const Text(
-                      'Sign Up',
+                      "Sign Up",
                       style: TextStyle(
-                        color: primaryRed,
-                        fontSize: 10,
+                        color: Color(0xFFD94A38),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ],
               ),
-
-              const SizedBox(height: 18),
-
+              const SizedBox(height: 16),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeShell()),
+                  );
+                },
+                child: const Text(
+                  "Continue as Guest \u{2192}",
+                  style: TextStyle(
+                    color: Color(0xFFD94A38),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
               const Text(
-                'Continue as Guest  →',
+                "\u{1F373} OVER 10,000+ HOME CHEF RECIPES",
                 style: TextStyle(
-                  color: Color(0xFF9A4B00),
-                  fontSize: 12,
+                  color: Colors.grey,
+                  fontSize: 10,
                   fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
                 ),
               ),
-
-              const SizedBox(height: 25),
-
-              const Text(
-                '♨  OVER 10,000+ HOME CHEF RECIPES',
-                style: TextStyle(
-                  fontSize: 8,
-                  color: Colors.black54,
-                ),
-              ),
-
             ],
-
           ),
         ),
       ),
     );
   }
 }
-

@@ -14,17 +14,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(
-      const Duration(seconds: 2),
-          () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const LoginPage(),
-          ),
-        );
-      },
-    );
+    Timer(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+    });
   }
 
   @override
@@ -37,19 +32,15 @@ class _SplashScreenState extends State<SplashScreen> {
           height: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
-            image: AssetImage('assets/images/background.png'),
-            fit: BoxFit.cover,
+              image: AssetImage('assets/images/background.png'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-            
-              Image.asset('assets/logo/meal_logo.png',
-                width: 150,
-                height: 150,
-              ),
+              Image.asset('assets/logo/app_logo.png', width: 150, height: 150),
               const Text(
                 'MealMate',
                 style: TextStyle(

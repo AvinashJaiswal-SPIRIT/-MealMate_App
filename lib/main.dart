@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
-import 'splash_screen.dart';
+import 'package:meal_mate/splash_screen.dart';
+
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MealMateApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MealMateApp extends StatelessWidget {
+  const MealMateApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'MealMate',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: const Color(0xFFD94A38),
+        scaffoldBackgroundColor: Colors.white,
+        fontFamily: 'Roboto',
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFD94A38)),
+      ),
       home: SplashScreen(),
     );
   }
