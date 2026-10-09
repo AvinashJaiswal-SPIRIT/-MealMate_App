@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+// Displays three bars to represent password strength.
 class PasswordStrengthBar extends StatelessWidget {
-  final int strengthLevel;
-  final Color strengthColor;
+  final int strengthLevel; // 0 = weak, 1 = medium, 2 = strong.
+  final Color strengthColor; // Color used for active bars.
 
   const PasswordStrengthBar({
     super.key,
@@ -14,6 +15,7 @@ class PasswordStrengthBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        // First bar: active for every strength level used here.
         Expanded(
           child: Container(
             height: 4,
@@ -25,7 +27,10 @@ class PasswordStrengthBar extends StatelessWidget {
             ),
           ),
         ),
+
         const SizedBox(width: 4),
+
+        // Second bar: active for medium and strong passwords.
         Expanded(
           child: Container(
             height: 4,
@@ -37,7 +42,10 @@ class PasswordStrengthBar extends StatelessWidget {
             ),
           ),
         ),
+
         const SizedBox(width: 4),
+
+        // Third bar: active only for strong passwords.
         Expanded(
           child: Container(
             height: 4,
@@ -54,6 +62,7 @@ class PasswordStrengthBar extends StatelessWidget {
   }
 }
 
+// Shows the "Free Forever Guarantee" information.
 class GuaranteeBox extends StatelessWidget {
   const GuaranteeBox({super.key});
 
@@ -70,6 +79,8 @@ class GuaranteeBox extends StatelessWidget {
         children: [
           const Icon(Icons.workspace_premium, color: Colors.orange),
           const SizedBox(width: 12),
+
+          // Expanded lets the text section use the available space.
           const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,6 +96,8 @@ class GuaranteeBox extends StatelessWidget {
               ],
             ),
           ),
+
+          // Displays a small encryption label.
           Row(
             children: const [
               Icon(Icons.lock_outline, color: Colors.green, size: 14),
@@ -101,6 +114,7 @@ class GuaranteeBox extends StatelessWidget {
   }
 }
 
+// Displays information about the recipe API.
 class ApiFooterInfo extends StatelessWidget {
   const ApiFooterInfo({super.key});
 
@@ -131,6 +145,7 @@ class ApiFooterInfo extends StatelessWidget {
   }
 }
 
+// Creates a selectable dietary preference chip.
 class DietChip extends StatelessWidget {
   final String label;
   final IconData icon;
@@ -152,6 +167,7 @@ class DietChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
+          // Selected chips are red; unselected chips are white.
           color: isSelected ? const Color(0xFFD94A38) : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
@@ -177,6 +193,8 @@ class DietChip extends StatelessWidget {
                 fontSize: 12,
               ),
             ),
+
+            // Displays a check mark only for the selected chip.
             if (isSelected) ...[
               const SizedBox(width: 4),
               const Icon(Icons.check, size: 14, color: Colors.white),
@@ -188,6 +206,7 @@ class DietChip extends StatelessWidget {
   }
 }
 
+// Displays the checkbox and Terms & Privacy Policy text.
 class TermsCheckboxRow extends StatelessWidget {
   final bool agreedToTerms;
   final VoidCallback onTap;
@@ -202,6 +221,7 @@ class TermsCheckboxRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        // Custom checkbox.
         GestureDetector(
           onTap: onTap,
           child: Container(
@@ -214,12 +234,17 @@ class TermsCheckboxRow extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(4),
             ),
+
+            // Shows a check mark when the box is selected.
             child: agreedToTerms
                 ? const Icon(Icons.check, color: Colors.white, size: 16)
                 : null,
           ),
         ),
+
         const SizedBox(width: 12),
+
+        // Allows different text styles within one text widget.
         Expanded(
           child: RichText(
             text: const TextSpan(

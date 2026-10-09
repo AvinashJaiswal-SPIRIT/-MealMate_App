@@ -5,8 +5,6 @@ import 'auth_widgets.dart';
 import 'home.dart';
 import 'signup.dart';
 
-// Login page
-// Handles user authentication, email/password input, and social login options.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -25,6 +23,11 @@ class _LoginPageState extends State<LoginPage> {
     String email = _emailController.text.trim();
     if (email.isEmpty || !email.contains('@') || !email.contains('.com')) {
       setState(() => errorMessage = "Please enter a valid email address");
+      return;
+    }
+    String password = _passwordController.text;
+    if (password.length < 6) {
+      setState(() => errorMessage = "Password must be at least 6 characters");
       return;
     }
     // Add api here for login

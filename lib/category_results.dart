@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'models.dart';
 import 'widgets.dart';
+import 'api_service.dart';
 import 'recipe_detail.dart';
 
 class CategoryResultsPage extends StatefulWidget {
   final Category category;
   final VoidCallback? onNavigateToCategories;
-  
+
   const CategoryResultsPage({
-    super.key, 
+    super.key,
     required this.category,
     this.onNavigateToCategories,
   });
@@ -19,12 +20,37 @@ class CategoryResultsPage extends StatefulWidget {
 }
 
 class _CategoryResultsPageState extends State<CategoryResultsPage> {
+  List<Recipe> _recipes = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  void _loadData() async {
+    try {
+      final response = await ApiService.getMealsByCategory(widget.category.name);
+      if (mounted) {
+        setState(() {
+          _recipes = response;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted)
+        setState(() {
+          _isLoading = false;
+        });
+    }
+  }
+
   String _selectedFilter = "All";
 
   @override
   Widget build(BuildContext context) {
-    // Dummy filtering for demo
-    List<Recipe> filteredRecipes = dummyRecipes
+    List<Recipe> filteredRecipes = _recipes
         .where(
           (r) =>
               r.category.toLowerCase() == widget.category.name.toLowerCase() ||
@@ -32,7 +58,7 @@ class _CategoryResultsPageState extends State<CategoryResultsPage> {
         )
         .toList();
     if (filteredRecipes.isEmpty) {
-      filteredRecipes = dummyRecipes; // Fallback so it doesn't look empty
+      filteredRecipes = _recipes;
     }
 
     return Scaffold(
@@ -167,30 +193,34 @@ class _CategoryResultsPageState extends State<CategoryResultsPage> {
               ),
             ),
             Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.75,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                ),
-                itemCount: filteredRecipes.length,
-                itemBuilder: (context, index) {
-                  return RecipeCard(
-                    recipe: filteredRecipes[index],
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              RecipeDetail(recipe: filteredRecipes[index]),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : GridView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.75,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                          ),
+                      itemCount: filteredRecipes.length,
+                      itemBuilder: (context, index) {
+                        return RecipeCard(
+                          recipe: filteredRecipes[index],
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RecipeDetail(
+                                  recipe: filteredRecipes[index],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),

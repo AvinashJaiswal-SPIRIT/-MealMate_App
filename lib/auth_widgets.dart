@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Reusable text field for login and signup forms.
 class AuthTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -36,6 +37,7 @@ class AuthTextField extends StatelessWidget {
   }
 }
 
+// Displays a field label and an optional right-side message.
 class AuthLabel extends StatelessWidget {
   final String leftText;
   final String rightText;
@@ -59,7 +61,10 @@ class AuthLabel extends StatelessWidget {
         children: [
           Text(
             leftText,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
           ),
           if (rightText.isNotEmpty)
             Text(
@@ -67,7 +72,9 @@ class AuthLabel extends StatelessWidget {
               style: TextStyle(
                 color: rightColor,
                 fontSize: 12,
-                fontWeight: isBoldRight ? FontWeight.bold : FontWeight.normal,
+                fontWeight: isBoldRight
+                    ? FontWeight.bold
+                    : FontWeight.normal,
               ),
             ),
         ],
@@ -76,11 +83,16 @@ class AuthLabel extends StatelessWidget {
   }
 }
 
+// Creates a reusable button for Google, Apple, or other sign-in options.
 class SocialButton extends StatelessWidget {
   final String text;
   final String image;
 
-  const SocialButton({super.key, required this.text, required this.image});
+  const SocialButton({
+    super.key,
+    required this.text,
+    required this.image,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +104,9 @@ class SocialButton extends StatelessWidget {
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
-            side: BorderSide(color: Colors.grey.withValues(alpha: 0.2)),
+            side: BorderSide(
+              color: Colors.grey.withValues(alpha: 0.2),
+            ),
           ),
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
@@ -102,7 +116,10 @@ class SocialButton extends StatelessWidget {
           children: [
             Image.asset(image, width: 20, height: 20),
             const SizedBox(width: 8),
-            Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              text,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
@@ -110,6 +127,7 @@ class SocialButton extends StatelessWidget {
   }
 }
 
+// Displays the app logo in a rounded square.
 class HeaderLogoBox extends StatelessWidget {
   const HeaderLogoBox({super.key});
 
@@ -118,9 +136,14 @@ class HeaderLogoBox extends StatelessWidget {
     return Container(
       width: 64,
       height: 64,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+      ),
       clipBehavior: Clip.antiAlias,
-      child: Image.asset('assets/logo/app_logo.png', fit: BoxFit.cover),
+      child: Image.asset(
+        'assets/logo/app_logo.png',
+        fit: BoxFit.cover,
+      ),
     );
   }
 }

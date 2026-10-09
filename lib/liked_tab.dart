@@ -4,8 +4,6 @@ import 'models.dart';
 import 'widgets.dart';
 import 'recipe_detail.dart';
 
-// --- LIKED TAB ---
-// Displays all recipes that the user has marked as favorite/liked.
 class LikedTab extends StatefulWidget {
   const LikedTab({super.key});
 
@@ -23,17 +21,25 @@ class _LikedTabState extends State<LikedTab> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const MealMateHeader(),
+
             if (globalLikedRecipes.isEmpty)
               const Expanded(
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.favorite_border, size: 60, color: Colors.grey),
+                      Icon(
+                        Icons.favorite_border,
+                        size: 60,
+                        color: Colors.grey,
+                      ),
                       SizedBox(height: 16),
                       Text(
                         "No liked recipes yet!",
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -60,6 +66,7 @@ class _LikedTabState extends State<LikedTab> {
                                 ),
                               ),
                               const SizedBox(width: 8),
+
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 6,
@@ -81,6 +88,7 @@ class _LikedTabState extends State<LikedTab> {
                               ),
                             ],
                           ),
+
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
@@ -112,6 +120,8 @@ class _LikedTabState extends State<LikedTab> {
                         ],
                       ),
                     ),
+
+                    // Describes how many recipes have been saved.
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,
@@ -125,7 +135,10 @@ class _LikedTabState extends State<LikedTab> {
                         ),
                       ),
                     ),
+
                     const SizedBox(height: 16),
+
+                    // Sorting and cooking-time display controls.
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
@@ -161,7 +174,9 @@ class _LikedTabState extends State<LikedTab> {
                               ],
                             ),
                           ),
+
                           const SizedBox(width: 8),
+
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
@@ -183,7 +198,7 @@ class _LikedTabState extends State<LikedTab> {
                                 ),
                                 SizedBox(width: 4),
                                 Text(
-                                  "Cook of time", // From mockup
+                                  "Cook of time",
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
@@ -192,10 +207,13 @@ class _LikedTabState extends State<LikedTab> {
                               ],
                             ),
                           ),
+
                           const Spacer(),
+
                           GestureDetector(
                             onTap: () {
                               setState(() {
+
                                 for (var r in globalLikedRecipes) {
                                   r.isLiked = false;
                                 }
@@ -214,7 +232,10 @@ class _LikedTabState extends State<LikedTab> {
                         ],
                       ),
                     ),
+
                     const SizedBox(height: 16),
+
+                    // Builds a scrollable list of saved recipes.
                     Expanded(
                       child: ListView.builder(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -222,12 +243,15 @@ class _LikedTabState extends State<LikedTab> {
                         itemBuilder: (context, index) {
                           return LikedRecipeCard(
                             recipe: globalLikedRecipes[index],
+
                             onUnlike: () {
                               setState(() {
                                 globalLikedRecipes[index].isLiked = false;
                                 globalLikedRecipes.removeAt(index);
                               });
                             },
+
+                            // Opens the selected recipe's detail page.
                             onTap: () {
                               Navigator.push(
                                 context,

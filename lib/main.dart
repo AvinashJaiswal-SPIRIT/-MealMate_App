@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_mate/splash_screen.dart';
 
-
 void main() {
   runApp(const MealMateApp());
 }

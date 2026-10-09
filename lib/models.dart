@@ -9,6 +9,7 @@ class Recipe {
   bool isLiked;
   final List<String> ingredients;
   final List<String> steps;
+  final String youtubeUrl;
 
   Recipe({
     required this.id,
@@ -21,6 +22,7 @@ class Recipe {
     this.isLiked = false,
     required this.ingredients,
     required this.steps,
+    this.youtubeUrl = '',
   });
 }
 
@@ -36,108 +38,8 @@ class Category {
   });
 }
 
-// Global lists for simple beginner-friendly state management
+// Global lists for simple state management
 List<Recipe> globalLikedRecipes = [];
-
-// Dummy Data
-List<Category> dummyCategories = [
-  Category(
-    name: "Chicken",
-    imageUrl: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=200",
-    recipeCount: "142 Recipes",
-  ),
-  Category(
-    name: "Beef",
-    imageUrl: 'https://www.themealdb.com/images/category/beef.png',
-    recipeCount: "98 Recipes",
-  ),
-  Category(
-    name: "Seafood",
-    imageUrl: 'https://www.themealdb.com/images/category/seafood.png',
-    recipeCount: "76 Recipes",
-  ),
-  Category(
-    name: "Vegetarian",
-    imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=200",
-    recipeCount: "115 Recipes",
-  ),
-  Category(
-    name: "Dessert",
-    imageUrl: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=200",
-    recipeCount: "89 Recipes",
-  ),
-  Category(
-    name: "Pasta",
-    imageUrl: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=200",
-    recipeCount: "64 Recipes",
-  ),
-  Category(
-    name: "Breakfast",
-    imageUrl: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=200",
-    recipeCount: "52 Recipes",
-  ),
-  Category(
-    name: "Lamb",
-    imageUrl: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=200",
-    recipeCount: "38 Recipes",
-  ),
-];
-
-List<Recipe> dummyRecipes = [
-  Recipe(
-    id: "1",
-    title: "Chicken Tikka Masala",
-    imageUrl: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=400",
-    time: "35 mins",
-    rating: 4.9,
-    calories: "540 kcal",
-    category: "Indian",
-    ingredients: [
-      "800g Boneless Chicken Thighs",
-      "1 cup Plain Greek Yogurt",
-      "2 tbsp Garam Masala",
-      "1 whole Large Onion",
-      "3 cloves Garlic",
-      "400g Canned Tomatoes",
-      "1/2 cup Heavy Cream",
-    ],
-    steps: [
-      "Marinate Chicken: Combine bite-sized chicken thighs with Greek yogurt, minced garlic, grated ginger, garam masala, and cumin in a large bowl. Let rest for at least 20 minutes.",
-      "Sear until Golden: Heat 1 tablespoon of ghee or oil in a heavy skillet. Sear chicken pieces in batches for 5-7 minutes. Transfer to a clean plate.",
-      "Simmer Aromatic Sauce: In the same skillet, sauté chopped onions until soft. Stir in crushed canned tomatoes, chili powder, and cumin. Simmer gently for 8-10 minutes.",
-      "Finish with Cream & Garnish: Return seared chicken to the skillet and gently stir in heavy cream. Let simmer for 10 minutes. Garnish lavishly with fresh chopped cilantro.",
-    ],
-  ),
-  Recipe(
-    id: "2",
-    title: "Creamy Tuscan Garlic Chicken",
-    imageUrl: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=400",
-    time: "20 mins",
-    rating: 4.8,
-    calories: "560 kcal",
-    category: "Italian",
-    ingredients: ["Chicken", "Garlic", "Cream", "Spinach"],
-    steps: ["Cook chicken", "Make sauce", "Combine and simmer"],
-  ),
-  Recipe(
-    id: "3",
-    title: "Authentic Spaghetti Carbonara",
-    imageUrl: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=400",
-    time: "15 mins",
-    rating: 4.9,
-    calories: "450 kcal",
-    category: "Italian",
-    ingredients: ["Spaghetti", "Eggs", "Pancetta", "Parmesan"],
-    steps: [
-      "Boil pasta",
-      "Fry pancetta",
-      "Mix eggs and cheese",
-      "Combine all together off heat",
-    ],
-  ),
-];
-
-
 
 //Category api model
 class CategoryResponse {
@@ -169,11 +71,12 @@ class Categories {
   String? strCategoryThumb;
   String? strCategoryDescription;
 
-  Categories(
-      {this.idCategory,
-        this.strCategory,
-        this.strCategoryThumb,
-        this.strCategoryDescription});
+  Categories({
+    this.idCategory,
+    this.strCategory,
+    this.strCategoryThumb,
+    this.strCategoryDescription,
+  });
 
   Categories.fromJson(Map<String, dynamic> json) {
     idCategory = json['idCategory'];
@@ -273,61 +176,62 @@ class Meals {
   Null strCreativeCommonsConfirmed;
   Null dateModified;
 
-  Meals(
-      {this.idMeal,
-        this.strMeal,
-        this.strMealAlternate,
-        this.strCategory,
-        this.strArea,
-        this.strCountry,
-        this.strInstructions,
-        this.strMealThumb,
-        this.strTags,
-        this.strYoutube,
-        this.strIngredient1,
-        this.strIngredient2,
-        this.strIngredient3,
-        this.strIngredient4,
-        this.strIngredient5,
-        this.strIngredient6,
-        this.strIngredient7,
-        this.strIngredient8,
-        this.strIngredient9,
-        this.strIngredient10,
-        this.strIngredient11,
-        this.strIngredient12,
-        this.strIngredient13,
-        this.strIngredient14,
-        this.strIngredient15,
-        this.strIngredient16,
-        this.strIngredient17,
-        this.strIngredient18,
-        this.strIngredient19,
-        this.strIngredient20,
-        this.strMeasure1,
-        this.strMeasure2,
-        this.strMeasure3,
-        this.strMeasure4,
-        this.strMeasure5,
-        this.strMeasure6,
-        this.strMeasure7,
-        this.strMeasure8,
-        this.strMeasure9,
-        this.strMeasure10,
-        this.strMeasure11,
-        this.strMeasure12,
-        this.strMeasure13,
-        this.strMeasure14,
-        this.strMeasure15,
-        this.strMeasure16,
-        this.strMeasure17,
-        this.strMeasure18,
-        this.strMeasure19,
-        this.strMeasure20,
-        this.strSource,
-        this.strImageSource,
-        this.strCreativeCommonsConfirmed,
-        this.dateModified});
+  Meals({
+    this.idMeal,
+    this.strMeal,
+    this.strMealAlternate,
+    this.strCategory,
+    this.strArea,
+    this.strCountry,
+    this.strInstructions,
+    this.strMealThumb,
+    this.strTags,
+    this.strYoutube,
+    this.strIngredient1,
+    this.strIngredient2,
+    this.strIngredient3,
+    this.strIngredient4,
+    this.strIngredient5,
+    this.strIngredient6,
+    this.strIngredient7,
+    this.strIngredient8,
+    this.strIngredient9,
+    this.strIngredient10,
+    this.strIngredient11,
+    this.strIngredient12,
+    this.strIngredient13,
+    this.strIngredient14,
+    this.strIngredient15,
+    this.strIngredient16,
+    this.strIngredient17,
+    this.strIngredient18,
+    this.strIngredient19,
+    this.strIngredient20,
+    this.strMeasure1,
+    this.strMeasure2,
+    this.strMeasure3,
+    this.strMeasure4,
+    this.strMeasure5,
+    this.strMeasure6,
+    this.strMeasure7,
+    this.strMeasure8,
+    this.strMeasure9,
+    this.strMeasure10,
+    this.strMeasure11,
+    this.strMeasure12,
+    this.strMeasure13,
+    this.strMeasure14,
+    this.strMeasure15,
+    this.strMeasure16,
+    this.strMeasure17,
+    this.strMeasure18,
+    this.strMeasure19,
+    this.strMeasure20,
+    this.strSource,
+    this.strImageSource,
+    this.strCreativeCommonsConfirmed,
+    this.dateModified,
+  });
 
   Meals.fromJson(Map<String, dynamic> json) {
     idMeal = json['idMeal'];
@@ -637,7 +541,8 @@ class Meal {
     strMeasure20 = json['strMeasure20']?.toString();
     strSource = json['strSource']?.toString();
     strImageSource = json['strImageSource']?.toString();
-    strCreativeCommonsConfirmed = json['strCreativeCommonsConfirmed']?.toString();
+    strCreativeCommonsConfirmed = json['strCreativeCommonsConfirmed']
+        ?.toString();
     dateModified = json['dateModified']?.toString();
   }
 
