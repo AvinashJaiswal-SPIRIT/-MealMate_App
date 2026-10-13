@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'models.dart';
-import 'recipe_widgets.dart';
-import 'api_service.dart';
+import '../models/models.dart';
+import '../widgets/recipe_details_widgets.dart';
+import '../api_requests/api_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RecipeDetail extends StatefulWidget {

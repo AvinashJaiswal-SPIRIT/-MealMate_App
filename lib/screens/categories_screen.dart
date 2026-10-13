@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'models.dart';
-import 'widgets.dart';
-import 'api_service.dart';
-import 'category_results.dart';
+import '../models/models.dart';
+import '../widgets/common_widgets.dart';
+import '../api_requests/api_service.dart';
+import 'category_results_screen.dart';
 
 // Displays food categories and allows users to filter them.
 class CategoriesTab extends StatefulWidget {

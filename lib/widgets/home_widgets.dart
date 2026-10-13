@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'models.dart';
-import 'widgets.dart';
-import 'api_service.dart';
-import 'recipe_detail.dart';
-import 'category_results.dart';
+import '../models/models.dart';
+import 'common_widgets.dart';
+import '../api_requests/api_service.dart';
+import '../screens/recipe_detail_screen.dart';
+import '../screens/category_results_screen.dart';
 
 class HomeTab extends StatefulWidget {
   final VoidCallback? onNavigateToSearch;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'models.dart';
-import 'widgets.dart';
-import 'api_service.dart';
-import 'recipe_detail.dart';
+import '../models/models.dart';
+import '../widgets/common_widgets.dart';
+import '../api_requests/api_service.dart';
+import 'recipe_detail_screen.dart';
 
 class CategoryResultsPage extends StatefulWidget {
   final Category category;
@@ -39,10 +39,11 @@ class _CategoryResultsPageState extends State<CategoryResultsPage> {
         });
       }
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _isLoading = false;
         });
+      }
     }
   }
 

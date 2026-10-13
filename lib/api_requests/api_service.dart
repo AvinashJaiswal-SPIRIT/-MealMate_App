@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'models.dart';
+import '../models/models.dart';
 
 class ApiService {
   // Base URL used for all TheMealDB API requests.
@@ -23,7 +23,6 @@ class ApiService {
     // Converts the Meal object into a Map to access ingredient fields.
     final map = meal.toJson();
 
-    // Loops through all 20 possible ingredient and measurement fields.
     for (int i = 1; i <= 20; i++) {
       final ing = map['strIngredient$i'];
       final meas = map['strMeasure$i'];
@@ -169,7 +168,6 @@ class ApiService {
         // Converts the first meal into our Recipe model.
         return _toRecipeFromMeal(recipeResponse.meals!.first);
       }
-
       return null;
     }
     throw Exception('Failed to load random meal');

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'models.dart';
-import 'widgets.dart';
-import 'recipe_detail.dart';
+import '../models/models.dart';
+import '../widgets/common_widgets.dart';
+import 'recipe_detail_screen.dart';
 
 class LikedTab extends StatefulWidget {
   const LikedTab({super.key});

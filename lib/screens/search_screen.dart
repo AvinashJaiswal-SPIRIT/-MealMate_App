@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart'; // Provides Flutter UI widgets.
 
-import 'models.dart';
-import 'widgets.dart';
-import 'api_service.dart';
-import 'recipe_detail.dart';
+import '../models/models.dart';
+import '../widgets/common_widgets.dart';
+import '../api_requests/api_service.dart';
+import 'recipe_detail_screen.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'home_tab.dart';
-import 'categories_tab.dart';
-import 'liked_tab.dart';
-import 'search_tab.dart';
+import '../widgets/home_widgets.dart';
+import 'categories_screen.dart';
+import 'liked_screen.dart';
+import 'search_screen.dart';
 
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
